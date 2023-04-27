@@ -5806,6 +5806,11 @@ react-native-screens@^3.20.0:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
 
+react-native-vision-camera@^2.15.4:
+  version "2.15.4"
+  resolved "https://registry.yarnpkg.com/react-native-vision-camera/-/react-native-vision-camera-2.15.4.tgz#821f0505fc8c63b87c1ae4697d2bb4f670333576"
+  integrity sha512-SJXSWH1pu4V3Kj4UuX/vSgOxc9d5wb5+nHqBHd+5iUtVyVLEp0F6Jbbaha7tDoU+kUBwonhlwr2o8oV6NZ7Ibg==
+
 react-native@0.71.7:
   version "0.71.7"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.71.7.tgz#d0ae409f6ee4fc7e7a876b4ca9d8d28934133228"

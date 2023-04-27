@@ -1,11 +1,49 @@
-import React from 'react';
-import {View, Text} from 'react-native';
+import React, {useEffect, useState, useCallback} from 'react';
+import {Text, Linking} from 'react-native';
+import {
+  Camera,
+  CameraPermissionStatus,
+  useCameraDevices,
+} from 'react-native-vision-camera';
+import Container from '../../components/container/Container';
+import Button from '../../components/button/Button';
+import {styles} from './CameraScreen.styles';
 
 const CameraScreen: React.FC = () => {
+  const devices = useCameraDevices('wide-angle-camera');
+  const device = devices.back;
+
+  const [cameraPermission, setCameraPermission] =
+    useState<CameraPermissionStatus>();
+
+  useEffect(() => {
+    Camera.getCameraPermissionStatus().then(setCameraPermission);
+  }, []);
+
+  const requestCameraPermission = useCallback(async () => {
+    console.log('Requesting camera permission...');
+    const permission = await Camera.requestCameraPermission();
+    console.log(`Camera permission status: ${permission}`);
+
+    if (permission === 'denied') {
+      await Linking.openSettings();
+    }
+    setCameraPermission(permission);
+  }, []);
+
   return (
-    <View>
-      <Text>Camera</Text>
-    </View>
+    <Container>
+      {cameraPermission !== 'authorized' ? (
+        <Button
+          title="Request Permission for Camera"
+          onPress={requestCameraPermission}
+        />
+      ) : device ? (
+        <Camera style={styles.containerFill} device={device} isActive={true} />
+      ) : (
+        <Text>Camera Error</Text>
+      )}
+    </Container>
   );
 };
 
