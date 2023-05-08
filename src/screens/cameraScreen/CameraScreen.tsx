@@ -7,11 +7,16 @@ import {
 } from 'react-native-vision-camera';
 import Container from '../../components/container/Container';
 import Button from '../../components/button/Button';
+import {useScanBarcodes, BarcodeFormat} from 'vision-camera-code-scanner';
 import {styles} from './CameraScreen.styles';
 
 const CameraScreen: React.FC = () => {
   const devices = useCameraDevices('wide-angle-camera');
   const device = devices.back;
+
+  const [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.QR_CODE], {
+    checkInverted: true,
+  });
 
   const [cameraPermission, setCameraPermission] =
     useState<CameraPermissionStatus>();
@@ -39,7 +44,20 @@ const CameraScreen: React.FC = () => {
           onPress={requestCameraPermission}
         />
       ) : device ? (
-        <Camera style={styles.containerFill} device={device} isActive={true} />
+        <>
+          <Camera
+            style={styles.containerFill}
+            device={device}
+            isActive={true}
+            frameProcessor={frameProcessor}
+            frameProcessorFps={5}
+          />
+          {barcodes.map((barcode, idx) => (
+            <Text key={idx} style={styles.barcodeTextURL}>
+              {barcode.displayValue}
+            </Text>
+          ))}
+        </>
       ) : (
         <Text>Camera Error</Text>
       )}

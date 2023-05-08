@@ -8,4 +8,9 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     width: '100%',
   },
+  barcodeTextURL: {
+    fontSize: 20,
+    color: 'white',
+    fontWeight: 'bold',
+  },
 });
